@@ -37,13 +37,15 @@ def writetofile(listofrepeats):
     try:
         f = open(mainpath + 'duplicates.txt','w')
         for i in listofrepeats:
-            f.write('md5: ' + i[1] + ':\n')
+            f.write('md5: ' + i[1])
             t = i[0]
-            x = 0
-            for j in t.split(mainpath):
-                if x > 0:
-                    f.write('     ' + mainpath + j + '\n')
-                x += 1
+            #x = 0
+            t = t.replace(mainpath, '\n     ' + mainpath)
+            #for j in t.split(mainpath):
+            #    if x > 0:
+            #        f.write('     ' + mainpath + j + '\n')
+            #    x += 1
+            f.write(t + '\n')
             f.write('\n')
         f.close()
         print('All found duplicates were written to ' + mainpath + 'duplicates.txt')
@@ -55,12 +57,13 @@ def printlist(x):
     for i in x:
         print('md5:' + i[1] + ':')
         t = i[0]
-        z = 0
-        for j in t.split(mainpath):
-            if z > 0:
-                print('     ' + mainpath + j)
-            z += 1
-
+        t = t.replace(mainpath, '\n     ' + mainpath)
+        #z = 0
+        #for j in t.split(mainpath):
+        #    if z > 0:
+        #        print('     ' + mainpath + j)
+        #    z += 1
+        print(t)
 def main():
     global mainpath
     mainpath = input('Enter path to directory:')
