@@ -16,7 +16,7 @@ def findallfiles(dir):
             with open(path, 'rb') as f:
                 md5 = hashlib.md5()
                 while True:
-                    data = f.read(8192)
+                    data = f.read(4096)
                     if not data:
                         break
                     md5.update(data)
@@ -35,18 +35,11 @@ def recfind(path):
 
 def writetofile(listofrepeats):
     try:
-        f = open(mainpath + 'duplicates.txt','w')
+        f = open(mainpath + 'duplicates.txt','w', encoding='utf-8')
         for i in listofrepeats:
-            f.write('md5: ' + i[1])
             t = i[0]
-            #x = 0
             t = t.replace(mainpath, '\n     ' + mainpath)
-            #for j in t.split(mainpath):
-            #    if x > 0:
-            #        f.write('     ' + mainpath + j + '\n')
-            #    x += 1
-            f.write(t + '\n')
-            f.write('\n')
+            f.write('md5: ' + i[1] + t + '\n')
         f.close()
         print('All found duplicates were written to ' + mainpath + 'duplicates.txt')
         return True
@@ -55,15 +48,9 @@ def writetofile(listofrepeats):
 
 def printlist(x):
     for i in x:
-        print('md5:' + i[1] + ':')
         t = i[0]
         t = t.replace(mainpath, '\n     ' + mainpath)
-        #z = 0
-        #for j in t.split(mainpath):
-        #    if z > 0:
-        #        print('     ' + mainpath + j)
-        #    z += 1
-        print(t)
+        print('md5:' + i[1] + ':\n' + t)
 def main():
     global mainpath
     mainpath = input('Enter path to directory:')
@@ -78,7 +65,7 @@ def main():
                 print('No duplicates in directory ' + mainpath)
             else:
                 if not writetofile(listofrepeats):
-                    print('Can not write list of duplicates to ' + mainpath + 'duplicates.txt or can not to create duplicates.txt')
+                    print('Can not write list of duplicates to ' + mainpath + 'duplicates.txt or can not to create *duplicates.txt')
                     print('Find this duplicates:')
                     printlist(listofrepeats)
         else:
